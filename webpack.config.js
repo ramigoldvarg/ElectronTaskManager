@@ -1,6 +1,7 @@
 const path = require('path')
 
-module.exports = {
+module.exports = env => {
+	return {
 	mode: 'development',
 	entry: ['./src/main.js'],
 	output: {
@@ -15,10 +16,27 @@ module.exports = {
 			use: 'vue-loader'
 		},
         {
-            test:/.js$/,
+            test:/\.js$/,
             exclude: path.join(__dirname, 'node_modules'),
             use: 'babel-loader'
-        }]
+		},
+		{
+			test: /\.(png|jpg|gif)$/,
+			use: {
+				loader: 'file-loader',
+				options: {
+					name (file) {
+						console.log('[path][name].[ext] [file]',)
+						if (env.NODE_ENV === 'development') {
+							return '[path][name].[ext]'
+						}
+
+						return '[hash].[ext]'
+					}
+				}
+			}
+		}
+	]
 	},
     resolve: {
         alias: {
@@ -27,5 +45,6 @@ module.exports = {
     },
     plugins: [
 
-    ]
+	]
+}
 }

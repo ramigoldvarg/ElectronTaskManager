@@ -1,20 +1,21 @@
 <template>
   <div id="app">
+    <img src="./assets/logo.png">
     <div>
-      {{message}}
-      {{another}}
+      <router-link v-for="route in routesconfig" :to="route.path" :key="route.path">{{route.name}}</router-link>
     </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
+  import {routesconfig} from './router/index.js'
 
   export default {
     name: 'App',
     data() {
       return {
-        message: 'hello',
-        another: "king"
+        routesconfig
       }
     }
   }
@@ -30,4 +31,7 @@
   margin-top: 60px;
 }
 
+li {
+  list-style-type: none
+}
 </style>
