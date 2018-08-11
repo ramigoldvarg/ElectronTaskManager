@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import TaskView from '../components/taskview.vue'
-import Stat from '../components/stats.vue'
+import TaskView from '../pages/TaskView.vue'
+import Stat from '../pages/NewTask.vue'
 
 Vue.use(Router)
 

@@ -12,7 +12,7 @@
       
 <script>
 
-    import SingleTask from './singletask.vue'
+    import SingleTask from './SingleTask.vue'
 
 export default {
     name: 'TaskList',
