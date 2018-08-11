@@ -1,5 +1,6 @@
 <template>
     <div>
+      <router-link to="/NewTask">+</router-link>
       <h1>{{msg}}</h1>
       <input type="text" v-model="taskToAdd"/> 
       <input type="date" v-model="deadline" />

@@ -1,27 +1,119 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <div>
-      <router-link v-for="route in routesconfig" :to="route.path" :key="route.path">{{route.name}}</router-link>
+      <h1>
+        יום {{dayOfTheWeek}} 
+      </h1>
+      <h3>
+        {{dateOfMonth}} ב{{displayMonth}}
+      </h3>
     </div>
     <router-view/>
   </div>
 </template>
 
 <script>
-  import {routesconfig} from './router/index.js'
+  import moment from 'moment'
 
   export default {
     name: 'App',
     data() {
       return {
-        routesconfig
+        today: new moment(),
+      }
+    },
+    created() {
+      // setTimeout()
+    },
+    methods: {
+      logMe() {
+        
+      }
+    },
+    computed: {
+      dayOfTheWeek() {
+        let currentDay = ""
+        switch (this.today.day()) {
+          case 0:
+            currentDay = "ראשון"
+            break;
+          case 1:
+            currentDay = "שני"
+            break;
+          case 2:
+            currentDay = "שלישי"
+            break;
+          case 3:
+            currentDay = "רביעי"
+            break;
+          case 4:
+            currentDay = "חמישי"
+            break;
+          case 5:
+            currentDay = "שישי"
+            break;
+          case 6:
+            currentDay = "שבת"
+            break;
+        }
+
+        return currentDay
+      },
+      displayMonth() {
+        let currentMonth = ""
+
+        switch (this.today.month()) {
+          case 0:
+            currentMonth = "ינואר"
+            break;
+          case 1:
+            currentMonth = "פברואר"
+            break;
+          case 2:
+            currentMonth = "מרץ"
+            break;
+          case 3:
+            currentMonth = "אפריל"
+            break;
+          case 4:
+            currentMonth = "מאי"
+            break;
+          case 5:
+            currentMonth = "יוני"
+            break;
+          case 6:
+            currentMonth = "יולי"
+            break;
+          case 7:
+            currentMonth = "אוגוסט"
+            break;
+          case 8:
+            currentMonth = "ספטמבר"
+            break;
+          case 9:
+            currentMonth = "אוקטובר"
+            break;
+          case 10:
+            currentMonth = "נובמבר"
+            break;
+          case 11:
+            currentMonth = "דצמבר"
+            break;
+        }
+
+        return currentMonth
+      },
+      dateOfMonth() {
+        return this.today.date()
       }
     }
   }
 </script>
 
 <style>
+  div {
+    direction: rtl
+  }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -12,7 +12,7 @@ const routes = [
     component: TaskView,
   },
   {
-    path: '/Statistics',
+    path: '/NewTask',
     name: 'Stats',
     component: Stat
   }

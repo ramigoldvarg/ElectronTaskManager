@@ -2,14 +2,16 @@
   "name": "vuetemplate",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "watch": "webpack --watch --progress --hot --env.NODE_ENV=development",
-    "compile": "webpack"
+    "compile": "webpack",
+    "dev": "electron ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron": "^2.0.7",
     "moment": "^2.22.2",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
