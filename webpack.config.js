@@ -3,6 +3,7 @@ const path = require('path')
 module.exports = env => {
 	return {
 	mode: 'development',
+	target: 'electron-main',
 	entry: ['./src/main.js'],
 	output: {
     		path: path.join(__dirname,'dist'),

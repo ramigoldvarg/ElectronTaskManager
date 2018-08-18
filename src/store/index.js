@@ -1,6 +1,7 @@
 import Vuex, {Store} from 'vuex';
 import Vue from 'vue';
 import moment from 'moment';
+import fs from 'fs'
 
 Vue.use(Vuex)
 
@@ -32,8 +33,10 @@ export default new Store({
     },
     getters: {
         completedTasks: ({tasks}) => tasks.filter(curr => curr.done),
-        uncompletedTasks: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") > -3),
+        uncompletedTasks: ({tasks}) => tasks.filter(curr => !curr.done),
+        notUrgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") > -3),
         urgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") < -3),
+        files: () => fs.readdirSync('.')
     },
     mutations: {
         addTaskToList({tasks}, task) {

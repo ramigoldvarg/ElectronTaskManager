@@ -1,14 +1,13 @@
 <template>
     <div>
+      <div>
+        <b>{{uncompletedTasks.length}}</b> משימות
+      </div>
       <router-link to="/NewTask">+</router-link>
-      <h1>{{msg}}</h1>
-      <input type="text" v-model="taskToAdd"/> 
-      <input type="date" v-model="deadline" />
-      <span class="btn-add" @click="onAdd">+</span>
-      <div >
-        <task-list class="tasklists" :tasks="completedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"><h2 class="completed">completed</h2></task-list>
-        <task-list class="tasklists" :tasks="uncompletedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"><h2 class="not-completed">not completed</h2></task-list>
-        <task-list class="tasklists" :tasks="urgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"><h2 class="urgent">urgent</h2></task-list>
+      <span> {{files}} </span>
+      <div>
+        <task-list :tasks="uncompletedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
+        <task-list :tasks="completedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
       </div>
     </div>
   </template>
@@ -34,25 +33,10 @@
     },
     methods: {
       ...mapActions(['addTaskToList', 'removeTask', 'updateTask', 'updateTaskText']),
-      onAdd() {
-        if (!this.taskToAdd) {
-          alert("cannot be empty")
-          return;
-        }
-  
-        this.addTaskToList({
-                  text: this.taskToAdd,
-                  done: false,
-                  startdate: new moment(),
-                  deadline: this.deadline ? moment(this.deadline) : this.deadline
-              });
-        this.taskToAdd = '';
-        this.deadline = new moment().format(momentFormat);
-      }
     },
     computed: {
       ...mapState(['tasks']),
-      ...mapGetters(['completedTasks', 'uncompletedTasks', 'urgent']),
+      ...mapGetters(['completedTasks', 'uncompletedTasks', 'urgent', 'files']),
     }
   }
   </script>

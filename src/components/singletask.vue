@@ -1,5 +1,5 @@
 <template>
-        <li>
+        <li :class="{ 'done-task': task.done }">
             <input type="checkbox" :checked="task.done" @click="updateTask"/>
             <span>
                 <span v-if="!editMode">
@@ -55,5 +55,9 @@ export default {
     .edit {
         color: blue;
         border-bottom: 1px;
+    }
+    .done-task {
+        opacity: 0.5;
+        color: gray
     }
 </style>
