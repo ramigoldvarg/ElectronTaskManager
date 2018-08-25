@@ -14,6 +14,7 @@
 
 <script>
   import moment from 'moment'
+  import { mapActions } from 'vuex'
 
   export default {
     name: 'App',
@@ -23,12 +24,10 @@
       }
     },
     created() {
-      // setTimeout()
+      this.loadTasks()
     },
     methods: {
-      logMe() {
-        
-      }
+      ...mapActions(['loadTasks'])
     },
     computed: {
       dayOfTheWeek() {

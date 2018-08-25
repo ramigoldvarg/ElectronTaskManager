@@ -25,11 +25,10 @@
         }
     },
     methods: {
-        logMe() {
-            console.log("his")
-        },
+        ...mapActions(['addTaskToList']),
         submitTask() {
             if (this.task.fetch('description')) {
+                this.addTaskToList(this.task.fetchData())
                 this.$router.push('/')
             } else {
                 this.task.updateError('description', 'שכחת למלא את המשימה');

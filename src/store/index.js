@@ -2,33 +2,16 @@ import Vuex, {Store} from 'vuex';
 import Vue from 'vue';
 import moment from 'moment';
 import fs from 'fs'
+import os from 'os'
 
 Vue.use(Vuex)
+
+const user = os.userInfo().username
+const saveRoute = `d:/${user}-taskmanager`
 
 export default new Store({
     state: {
         tasks: [
-            {
-                id: 0,
-                text: 'learn vue',
-                done: false,
-                startdate: new Date(),
-                deadline: new Date(1534720907601)
-            },
-            {
-                id: 2,
-                text: 'learn react',
-                done: false,
-                startdate: new Date(-1),
-                deadline: new Date(1530720907601)
-            },
-            {
-                id: 3,
-                text: 'learn moment',
-                done: true,
-                startdate: new Date(-1),
-                deadline: new Date()
-            },
         ]
     },
     getters: {
@@ -36,7 +19,6 @@ export default new Store({
         uncompletedTasks: ({tasks}) => tasks.filter(curr => !curr.done),
         notUrgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") > -3),
         urgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") < -3),
-        files: () => fs.readdirSync('.')
     },
     mutations: {
         addTaskToList({tasks}, task) {
@@ -51,14 +33,52 @@ export default new Store({
         updateTaskText({tasks}, task) {
             tasks.map(curr=> { curr.id === task.id && (curr.text = task.text) })
         },
+        loadTasks(state, loadedTasks) {
+            state.tasks = loadedTasks
+        }
     },
     actions: {
-        addTaskToList({commit, state}, payload) {
-            const id = state.tasks.map(curr => curr.id).reduce((prev, next) => prev = next + 1);
-            commit('addTaskToList', {...payload, id})
+        loadTasks({commit}) {
+            const data = fs.readFileSync(`${saveRoute}/tasks.txt`)
+
+            const result = data.toString().split('\n').map(fileName => {
+                if (fileName !== "") {
+                    const a = fs.readFileSync(`${saveRoute}/${fileName.toString()}`).toString()
+                    return JSON.parse(a);
+                }
+            })
+            
+            result.pop()
+            commit('loadTasks', result)
         },
-        removeTask({commit}, payload) {
-            commit('removeTask', payload);
+        addTaskToList({commit, state}, payload) {
+            const id = state.tasks.map(curr => curr.id).reduce((prev, next) => prev = next + 1, 0);
+            const taskToAdd = {...payload, done: false, id}
+            
+            fs.appendFile(`${saveRoute}/tasks.txt`, `${id}\n`, (err) => {
+                if (err) {
+                    throw err
+                }
+                
+                fs.writeFile(`${saveRoute}/${id}`, JSON.stringify(taskToAdd), (err) => {
+                    if (err) {
+                        throw err
+                    }
+
+                    commit('addTaskToList', taskToAdd)
+                })
+            })
+        },
+        removeTask({state, commit}, payload) {
+            const newId = state.tasks.map(curr => curr.id).reduce((acu, curr) => curr != payload ? acu = `${acu}${curr}\n` : acu, "")
+
+            fs.writeFile(`${saveRoute}/tasks.txt`, newId, (err) => {
+                if (err) {
+                    throw err;
+                }
+
+                commit('removeTask', payload);
+            })
         },
         updateTask({commit}, payload) {
             commit('updateTask', payload)

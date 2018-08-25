@@ -10,6 +10,7 @@ class Form {
         this.submitForm = this.submitForm.bind(this)
         this.updateValue = this.updateValue.bind(this)
         this.fetch = this.fetch.bind(this)
+        this.fetchData = this.fetchData.bind(this)
         this.fetchError = this.fetchError.bind(this)
         this.updateError = this.updateError.bind(this)
     }
@@ -26,6 +27,10 @@ class Form {
 
     fetch(key) {
         return this.form[key]
+    }
+
+    fetchData() {
+        return this.form
     }
 
     updateValue(key, newValue) {

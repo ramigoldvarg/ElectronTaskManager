@@ -4,10 +4,9 @@
         <b>{{uncompletedTasks.length}}</b> משימות
       </div>
       <router-link to="/NewTask">+</router-link>
-      <span> {{files}} </span>
       <div>
         <task-list :tasks="uncompletedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
-        <task-list :tasks="completedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
+        <task-list v-if="completedTasks.length != 0" :tasks="completedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
       </div>
     </div>
   </template>
@@ -36,7 +35,7 @@
     },
     computed: {
       ...mapState(['tasks']),
-      ...mapGetters(['completedTasks', 'uncompletedTasks', 'urgent', 'files']),
+      ...mapGetters(['completedTasks', 'uncompletedTasks', 'urgent']),
     }
   }
   </script>

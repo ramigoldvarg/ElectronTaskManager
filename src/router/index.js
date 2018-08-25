@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import TaskView from '../pages/TaskView.vue'
-import Stat from '../pages/NewTask.vue'
+import NewTask from '../pages/NewTask.vue'
 
 Vue.use(Router)
 
@@ -13,8 +13,8 @@ const routes = [
   },
   {
     path: '/NewTask',
-    name: 'Stats',
-    component: Stat
+    name: 'NewTask',
+    component: NewTask
   }
 ]
 

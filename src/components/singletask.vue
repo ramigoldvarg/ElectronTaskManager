@@ -3,9 +3,9 @@
             <input type="checkbox" :checked="task.done" @click="updateTask"/>
             <span>
                 <span v-if="!editMode">
-                    {{task.text}}
+                    {{task.description}}
                 </span>
-                <input v-else type="text" :value="task.text" @input="updateTaskText"/>
+                <input v-else type="text" :value="task.description" @input="updateTaskText"/>
             </span>
             <span class="edit" @click="editMode = !editMode">
                 <span v-if="editMode">
