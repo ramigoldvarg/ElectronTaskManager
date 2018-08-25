@@ -9,6 +9,10 @@ Vue.use(Vuex)
 const user = os.userInfo().username
 const saveRoute = `d:/${user}-taskmanager`
 
+let saveFileSync = (fileName, data) => {
+    fs.writeFileSync(fileName, data)
+}
+
 export default new Store({
     state: {
         tasks: [
@@ -27,12 +31,12 @@ export default new Store({
         removeTask(state, taskId) {
             state.tasks = state.tasks.filter(curr => curr.id != taskId);
         },
-        updateTask({tasks}, taskId) {
-            tasks.map(curr=> { curr.id === taskId && (curr.done = !curr.done) })
+        updateTask({tasks}, taskInfo) {
+            tasks.map(curr=> { curr.id === taskInfo.id && (curr[task.prop] = taskInfo.data) })
         },
-        updateTaskText({tasks}, task) {
-            tasks.map(curr=> { curr.id === task.id && (curr.text = task.text) })
-        },
+        // updateTaskText({tasks}, task) {
+        //     tasks.map(curr=> { curr.id === task.id && (curr.description = task.description) })
+        // },
         loadTasks(state, loadedTasks) {
             state.tasks = loadedTasks
         }
@@ -80,11 +84,25 @@ export default new Store({
                 commit('removeTask', payload);
             })
         },
-        updateTask({commit}, payload) {
-            commit('updateTask', payload)
+        updateTask({state, commit}, payload) {
+            const task = state.tasks.find((curr) => curr.id == payload)
+            task.done = !task.done
+            saveFileSync(`${saveRoute}/${payload}`, JSON.stringify(task));
+            commit('updateTask', {
+                "id": payload,
+                "data": task.done,
+                "prop": "done"
+            })
         },
-        updateTaskText({commit}, payload) {
-            commit('updateTaskText', payload);
+        updateTaskText({state, commit}, payload) {
+            const task = state.tasks.find((curr) => curr.id == payload.id)
+            task.description = task.description
+            saveFileSync(`${saveRoute}/${payload.id}`, JSON.stringify(task));
+            commit('updateTask', {
+                "id": payload.id,
+                "data": payload.text,
+                "prop": "description"
+            });
         }
     }
 });
