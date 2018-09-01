@@ -22,7 +22,7 @@ export default new Store({
         completedTasks: ({tasks}) => tasks.filter(curr => curr.done),
         uncompletedTasks: ({tasks}) => tasks.filter(curr => !curr.done),
         notUrgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") > -3),
-        urgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") < -3),
+        urgent: ({tasks}) =>  tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") <= -3),
     },
     mutations: {
         addTaskToList({tasks}, task) {
@@ -31,12 +31,9 @@ export default new Store({
         removeTask(state, taskId) {
             state.tasks = state.tasks.filter(curr => curr.id != taskId);
         },
-        updateTask({tasks}, taskInfo) {
-            tasks.map(curr=> { curr.id === taskInfo.id && (curr[task.prop] = taskInfo.data) })
+        updateTask(state, taskInfo) {
+            state.tasks.map(curr=> { curr.id === taskInfo.id && (curr[taskInfo.prop] = taskInfo.data) })
         },
-        // updateTaskText({tasks}, task) {
-        //     tasks.map(curr=> { curr.id === task.id && (curr.description = task.description) })
-        // },
         loadTasks(state, loadedTasks) {
             state.tasks = loadedTasks
         }

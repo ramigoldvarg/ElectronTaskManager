@@ -6,7 +6,7 @@
 
               </single-task>
           </ul>
-          <p v-else>nothing</p>
+          <p v-else>וואו אין משימות, בטח משעמם לך..</p>
         </span>
 </template>
       
@@ -37,6 +37,9 @@ export default {
 <style>
     .heading {
         position: static
+    }
+    ul {
+        padding: 0
     }
 </style>
       

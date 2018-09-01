@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <div>
+    <div class="header">
       <h1>
         יום {{dayOfTheWeek}} 
       </h1>
       <h3>
         {{dateOfMonth}} ב{{displayMonth}}
       </h3>
+      </hr>
     </div>
-    <router-view/>
+    <router-view class="app-body"/>
   </div>
 </template>
 
@@ -110,6 +111,11 @@
 </script>
 
 <style>
+  .header {
+    background-color: #a0a0a0;
+    width: 100%;
+    margin: 0
+  }
   div {
     direction: rtl
   }
@@ -119,9 +125,15 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 0
 }
 
+.app-body {
+
+}
+body,h1 {
+  margin: 0
+}
 li {
   list-style-type: none
 }

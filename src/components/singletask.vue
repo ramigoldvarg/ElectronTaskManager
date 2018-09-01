@@ -18,6 +18,11 @@
             <span class="btn-remove" @click="removeTask">
                 X
             </span>
+            <span class="drag-item">
+                <hr/>
+                <hr/>
+                <hr/>
+            </span>
         </li>
       </template>
       
@@ -47,7 +52,10 @@ export default {
 
 <style scoped>
     .btn-remove {
-        color: red
+        color: #ff0000
+    }
+    span {
+        display: inline-block
     }
     .btn-remove:hover {
         cursor: pointer;
@@ -59,5 +67,12 @@ export default {
     .done-task {
         opacity: 0.5;
         color: gray
+    }
+    .drag-item {
+        width: 2em;
+        height: 0.5em
+    }
+    .drag-item:hover {
+        cursor: -webkit-grab
     }
 </style>
