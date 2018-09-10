@@ -27,8 +27,14 @@
     created() {
       this.loadTasks()
     },
+    mounted() {
+      // window.addEventListener("keydown", this.goBack)
+    },
     methods: {
-      ...mapActions(['loadTasks'])
+      ...mapActions(['loadTasks']),
+      goBack(e) {
+        e.keyCode == 27 && this.$router.push("/")
+      }
     },
     computed: {
       dayOfTheWeek() {

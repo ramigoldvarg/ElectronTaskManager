@@ -5,7 +5,7 @@
                 <span v-if="!editMode">
                     {{task.description}}
                 </span>
-                <input v-else type="text" :value="task.description" @input="updateTaskText"/>
+                <input v-else type="text" :value="task.description" @input="updateTaskText" @blur="editMode = false"/>
             </span>
             <span class="edit" @click="editMode = !editMode">
                 <span v-if="editMode">
@@ -44,6 +44,11 @@ export default {
             this.$emit("updateTask", this.task.id);
         },
         updateTaskText(event) {
+            if (event.keyCode == 27) {
+                this.editMode = false;
+                return;
+            }
+
             this.$emit("updateText", {id:this.task.id, text:event.target.value})
         }
     }

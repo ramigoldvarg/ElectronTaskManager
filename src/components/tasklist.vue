@@ -6,7 +6,6 @@
 
               </single-task>
           </ul>
-          <p v-else>וואו אין משימות, בטח משעמם לך..</p>
         </span>
 </template>
       
