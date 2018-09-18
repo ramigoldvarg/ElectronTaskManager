@@ -40,16 +40,13 @@ export default new Store({
     },
     actions: {
         loadTasks({commit}) {
-            const data = fs.readFileSync(`${saveRoute}/tasks.txt`)
+            const data = fs.readFileSync(`${saveRoute}/tasks.txt`).toString().split('\n')
 
-            const result = data.toString().split('\n').map(fileName => {
-                if (fileName !== "") {
-                    const a = fs.readFileSync(`${saveRoute}/${fileName.toString()}`).toString()
-                    return JSON.parse(a);
-                }
+            const result = data.slice(0, data.length - 1).sort((first, second) => first - second).map(fileName => {
+                const a = fs.readFileSync(`${saveRoute}/${fileName.toString()}`).toString()
+                return JSON.parse(a);
             })
             
-            result.pop()
             commit('loadTasks', result)
         },
         addTaskToList({commit, state}, payload) {

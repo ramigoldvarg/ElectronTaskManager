@@ -1,7 +1,7 @@
 <template>
         <span>
           <slot class="heading"> </slot>
-          <ul v-if="tasks.length">
+          <ul>
               <single-task v-for="task in tasks" :key="task.id" :task="task" @updateText='onUpdateText' @removeTask='onRemove' @updateTask='onUpdate'>
 
               </single-task>

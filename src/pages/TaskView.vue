@@ -50,36 +50,24 @@
     .tasklists {
       display: inline-block;
       vertical-align: top
+    }  
+    ul {
+      list-style-type: none;
+      padding: 0;
     }
-    .completed {
-      color: green;
+    li {
+      display: inline-block;
+      margin: 0 10px;
     }
-    .not-completed {
-      color: yellow
+
+    .btn-add {
+      border-radius: 50%;
+      color: white;
+      background-color: red 
     }
-  
-    .urgent {
-      color: red;
-      font-weight: bold
-    }
-  h1, h2 {
-    font-weight: normal;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
-  }
-  .btn-add {
-    border-radius: 50%;
-    color: white;
-    background-color: red 
-  }
   </style>
-  
+  <style>
+    .urgent .task-text {
+      color: red;
+    }
+  </style>

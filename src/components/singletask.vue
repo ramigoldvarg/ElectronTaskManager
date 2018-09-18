@@ -1,8 +1,8 @@
 <template>
-        <li :class="{ 'done-task': task.done }">
+        <li :class="{ 'done-task': task.done }" draggable="true">
             <input type="checkbox" :checked="task.done" @click="updateTask"/>
             <span>
-                <span v-if="!editMode">
+                <span class="task-text" v-if="!editMode">
                     {{task.description}}
                 </span>
                 <input v-else type="text" :value="task.description" @input="updateTaskText" @blur="editMode = false"/>
@@ -11,14 +11,9 @@
                 <span v-if="editMode">
                     done
                 </span>
-                <span v-else>
-                    edit
-                </span>
             </span>
-            <span class="btn-remove" @click="removeTask">
-                X
-            </span>
-            <span class="drag-item">
+            <option-menu :options="options"></option-menu>
+            <span v-if="!task.done" class="drag-item">
                 <hr/>
                 <hr/>
                 <hr/>
@@ -27,18 +22,35 @@
       </template>
       
 <script>
+import OptionMenu from './OptionMenu.vue'
 
 export default {
-    name: 'TaskList',
+    name: 'SingleTask',
     data() {
         return {
             editMode: false,
+            options: [
+                {
+                    "title": "עריכה",
+                    "action": this.setEditMode
+                },
+                {
+                    "title": "מחיקה",
+                    "action": this.removeTask
+                }
+            ]
         }
     },
     props: ['task'],
+    components: {
+        "option-menu": OptionMenu
+    },
     methods: {
         removeTask() {
             this.$emit("removeTask", this.task.id)
+        },
+        setEditMode() {
+            this.editMode = !this.editMode
         },
         updateTask() {
             this.$emit("updateTask", this.task.id);
@@ -56,28 +68,20 @@ export default {
 </script>
 
 <style scoped>
-    .btn-remove {
-        color: #ff0000
-    }
     span {
         display: inline-block
     }
-    .btn-remove:hover {
-        cursor: pointer;
-    }
-    .edit {
-        color: blue;
-        border-bottom: 1px;
-    }
-    .done-task {
+    .done-task .task-text {
         opacity: 0.5;
-        color: gray
+        color: gray;
+        text-decoration: line-through;
     }
     .drag-item {
         width: 2em;
-        height: 0.5em
+        height: 0.1em
     }
     .drag-item:hover {
-        cursor: -webkit-grab
+        cursor: move
     }
+    
 </style>

@@ -28,7 +28,7 @@
       this.loadTasks()
     },
     mounted() {
-      // window.addEventListener("keydown", this.goBack)
+      window.addEventListener("keydown", this.goBack)
     },
     methods: {
       ...mapActions(['loadTasks']),
