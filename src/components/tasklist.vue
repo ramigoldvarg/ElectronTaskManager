@@ -2,7 +2,7 @@
         <span>
           <slot class="heading"> </slot>
           <ul>
-              <single-task v-for="task in tasks" :key="task.id" :task="task" @updateText='onUpdateText' @removeTask='onRemove' @updateTask='onUpdate'>
+              <single-task class="task-item" v-for="task in tasks" :key="task.id" :task="task" @updateText='onUpdateText' @removeTask='onRemove' @updateTask='onUpdate'>
 
               </single-task>
           </ul>
@@ -39,6 +39,9 @@ export default {
     }
     ul {
         padding: 0
+    }
+    .task-item {
+        border-bottom: 1px black
     }
 </style>
       

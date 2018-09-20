@@ -35,7 +35,9 @@
         background-color: #eee
     }
     .dots {
-        font-weight: bold
+        font-weight: bold;
+        background-color: rgba(0,0,0,0); 
+        border-color: rgba(0,0,0,0);
     }
     .options>span {
         display: block;

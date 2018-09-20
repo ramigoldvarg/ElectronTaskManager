@@ -59,15 +59,15 @@
       display: inline-block;
       margin: 0 10px;
     }
-
     .btn-add {
       border-radius: 50%;
       color: white;
-      background-color: red 
+      background-color: #f44336;
+      border-color: rgba(0,0,0,0)
     }
   </style>
   <style>
     .urgent .task-text {
-      color: red;
+      color: #b71c1c;
     }
   </style>
