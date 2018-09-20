@@ -1,6 +1,6 @@
 <template>
     <span class="menu">
-        <button class="dots" @click="pressed=!pressed">
+        <button class="dots" @click="menuSwitch">
             .
             .
             .
@@ -18,10 +18,15 @@
         name: "OptionMenu",
         data() {
             return ({
-                pressed: false
+                pressed: false,
             })
         },
-        props: ["options"]
+        props: ["options"],
+        methods: {
+            menuSwitch() {
+                this.pressed = !this.pressed;
+            }
+        }
     }
 </script>
 
@@ -32,7 +37,8 @@
     .dots {
         font-weight: bold
     }
-    .menu {
-        display: inline-block
+    .options>span {
+        display: block;
+        z-index: 1
     }
 </style>

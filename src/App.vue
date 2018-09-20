@@ -119,9 +119,31 @@
 <style>
   .header {
     background-color: #a0a0a0;
-    width: 100%;
-    margin: 0
+    /* width: 100%; */
+    margin: 0;
+    padding: 0 1em;
+    grid-column: 1;
+    grid-row-start: 1;
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-template-rows: 50% 50%
   }
+  .header h1 {
+    grid-row: 1;
+    text-align: right
+  }
+  .header h3 {
+    grid-row: 2;
+    text-align: right
+  }
+  .app-body {
+    grid-row: 2;
+  }
+  /* .header div {
+    float:right;
+    display: block;
+    margin-bottom: 1em
+  } */
   div {
     direction: rtl
   }
@@ -131,11 +153,12 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 0
-}
-
-.app-body {
-
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display:  grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 20% 80%
 }
 body,h1 {
   margin: 0
