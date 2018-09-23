@@ -90,7 +90,7 @@ export default new Store({
         },
         updateTaskText({state, commit}, payload) {
             const task = state.tasks.find((curr) => curr.id == payload.id)
-            task.description = task.description
+            task.description = payload.text
             saveFileSync(`${saveRoute}/${payload.id}`, JSON.stringify(task));
             commit('updateTask', {
                 "id": payload.id,
