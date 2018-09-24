@@ -99,5 +99,4 @@ export default {
     .drag-item:hover {
         cursor: move
     }
-    
 </style>

@@ -1,11 +1,11 @@
 <template>
     <span class="menu">
-        <button class="dots fa fa-ellipsis-v" @click="menuSwitch">
+        <button :class="{ 'pressed': pressed }" class="dots fa fa-ellipsis-v" @blur="endFocus" @click="pressed=!pressed">
         </button>
         <div class="options" v-if="pressed">
-            <span v-for="option in options" @click="option.action">
+            <div v-for="option in options" @click="option.action">
                 {{option.title}}
-            </span>
+            </div>
         </div>
     </span>
 </template>
@@ -20,15 +20,18 @@
         },
         props: ["options"],
         methods: {
-            menuSwitch() {
-                this.pressed = !this.pressed;
+            switchPress() {
+                this.pressed = false;
+            },
+            endFocus(e) {
+                setTimeout(this.switchPress, 500)
             }
         }
     }
 </script>
 
 <style>
-    .options>span:hover {
+    .options>div:hover {
         background-color: #eee
     }
     .dots {
@@ -36,14 +39,24 @@
         background-color: rgba(0,0,0,0); 
         border-color: rgba(0,0,0,0);
     }
+    .dots:focus {
+        outline: transparent;
+    }
+    .pressed {
+        box-shadow: 3px 3px #eee
+    }
     .options {
-        width: 3em;
+        width: 3.5em;
         position: absolute;
         z-index: 100;
         box-shadow: 0 0 4px rgba(0,0,0,0.2);
-        background-color: white
+        background-color: white;
+        margin: 2px 0;
+        padding: 2px 0
     }
-    .options>span {
-        width: 100%
+    .options>div {
+        width: 90%;
+        padding: 0 5%;
+        direction: rtl
     }
 </style>

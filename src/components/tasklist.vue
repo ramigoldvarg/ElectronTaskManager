@@ -38,7 +38,8 @@ export default {
         position: static
     }
     ul {
-        padding: 0
+        padding: 0;
+        margin: 0
     }
     .task-item {
         border-bottom: 1px black
