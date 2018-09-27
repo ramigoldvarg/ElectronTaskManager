@@ -1,10 +1,10 @@
 <template>
-    <div>
-      <div>
+    <div class="wrapper">
+      <div class="uncompleted-counter">
         <b>{{uncompletedTasks.length}}</b> משימות
       </div>
       <button class="btn-add" @click="navigate">+</button>
-      <div>
+      <div class="task-lists">
         <p v-if="uncompletedTasks.length === 0">וואו אין משימות, בטח משעמם לך..</p>
         <task-list :tasks="urgent" class="urgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
         <task-list :tasks="notUrgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
@@ -47,39 +47,46 @@
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
-    .tasklists {
+    .task-lists {
+      margin-top: 29px;
+    }  
+    li {
       display: inline-block;
-      vertical-align: top
+      margin: 0 10px;
     }
-    .completed {
-      color: green;
+    .btn-add {
+      border-radius: 50%;
+      color: white;
+      background-color: #f44336;
+      border-color: rgba(0,0,0,0);
+      width: 50px;
+      height: 50px;
+      font-size: 30pt;
+      position: relative;
+      margin-top: -26px;
+      float: left;
+      margin-left: 10px;
     }
-    .not-completed {
-      color: yellow
+    .btn-add:hover {
+      cursor: pointer;
+      background-color: #e53935
     }
-  
-    .urgent {
-      color: red;
-      font-weight: bold
+    .btn-add:focus {
+      outline: transparent
     }
-  h1, h2 {
-    font-weight: normal;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
-  }
-  .btn-add {
-    border-radius: 50%;
-    color: white;
-    background-color: red 
-  }
+    .uncompleted-counter {
+      position: relative;
+      margin-top: -72px;
+      float: left;
+      margin-left: 10px;
+      opacity: 0.7
+    }
+    .wrapper {
+      position: relative;
+    }
   </style>
-  
+  <style>
+    .urgent .task-text {
+      color: #b71c1c;
+    }
+  </style>

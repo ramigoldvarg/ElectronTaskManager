@@ -16,13 +16,14 @@ let saveFileSync = (fileName, data) => {
 export default new Store({
     state: {
         tasks: [
-        ]
+        ],
+        today: new moment()
     },
     getters: {
         completedTasks: ({tasks}) => tasks.filter(curr => curr.done),
         uncompletedTasks: ({tasks}) => tasks.filter(curr => !curr.done),
-        notUrgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") > -3),
-        urgent: ({tasks}) =>  tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") <= -3),
+        notUrgent: ({tasks, today}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") > -3),
+        urgent: ({tasks, today}) =>  tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") <= -3),
     },
     mutations: {
         addTaskToList({tasks}, task) {
@@ -36,20 +37,20 @@ export default new Store({
         },
         loadTasks(state, loadedTasks) {
             state.tasks = loadedTasks
+        },
+        updateDay(state) {
+            state.today = new moment()
         }
     },
     actions: {
         loadTasks({commit}) {
-            const data = fs.readFileSync(`${saveRoute}/tasks.txt`)
+            const data = fs.readFileSync(`${saveRoute}/tasks.txt`).toString().split('\n')
 
-            const result = data.toString().split('\n').map(fileName => {
-                if (fileName !== "") {
-                    const a = fs.readFileSync(`${saveRoute}/${fileName.toString()}`).toString()
-                    return JSON.parse(a);
-                }
+            const result = data.slice(0, data.length - 1).sort((first, second) => first - second).map(fileName => {
+                const a = fs.readFileSync(`${saveRoute}/${fileName.toString()}`).toString()
+                return JSON.parse(a);
             })
             
-            result.pop()
             commit('loadTasks', result)
         },
         addTaskToList({commit, state}, payload) {
@@ -93,13 +94,16 @@ export default new Store({
         },
         updateTaskText({state, commit}, payload) {
             const task = state.tasks.find((curr) => curr.id == payload.id)
-            task.description = task.description
+            task.description = payload.text
             saveFileSync(`${saveRoute}/${payload.id}`, JSON.stringify(task));
             commit('updateTask', {
                 "id": payload.id,
                 "data": payload.text,
                 "prop": "description"
             });
+        },
+        updateDay({commit}) {
+            commit('updateDay')
         }
     }
 });

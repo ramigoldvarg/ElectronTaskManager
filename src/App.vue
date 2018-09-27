@@ -4,9 +4,9 @@
       <h1>
         יום {{dayOfTheWeek}} 
       </h1>
-      <h3>
+      <div>
         {{dateOfMonth}} ב{{displayMonth}}
-      </h3>
+      </div>
       </hr>
     </div>
     <router-view class="app-body"/>
@@ -15,28 +15,32 @@
 
 <script>
   import moment from 'moment'
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     name: 'App',
-    data() {
-      return {
-        today: new moment(),
-      }
-    },
     created() {
-      this.loadTasks()
+      this.loadTasks();
     },
     mounted() {
-      // window.addEventListener("keydown", this.goBack)
+      window.addEventListener("keydown", this.goBack)
+      setTimeout(this.switchDay, moment([this.today.year(), this.today.month(), this.today.date() + 1]).diff(this.today))
     },
     methods: {
-      ...mapActions(['loadTasks']),
+      ...mapActions(['loadTasks', 'updateDay']),
       goBack(e) {
         e.keyCode == 27 && this.$router.push("/")
+      },
+      switchDay() {
+        this.updateDay()
+        this.interval = setInterval(this.updateDay, 24 * 60 * 60 * 1000)
       }
     },
+    destroyed() {
+      this.interval && clearInterval(this.interval);
+    },
     computed: {
+      ...mapState(['today']),
       dayOfTheWeek() {
         let currentDay = ""
         switch (this.today.day()) {
@@ -119,8 +123,28 @@
 <style>
   .header {
     background-color: #a0a0a0;
-    width: 100%;
-    margin: 0
+    margin: 0;
+    padding: 0 1em;
+    grid-column: 1;
+    grid-row-start: 1;
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-template-rows: 50% 50%;
+    border-bottom: 1px solid red;
+  }
+  .header h1 {
+    grid-row: 1;
+    text-align: right
+  }
+  .header div {
+    grid-row: 2;
+    text-align: right;
+    margin-top: 0;
+    opacity: 0.7;
+    font-size: 14pt
+  }
+  .app-body {
+    grid-row: 2;
   }
   div {
     direction: rtl
@@ -129,13 +153,14 @@
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  position: absolute;
   color: #2c3e50;
-  margin: 0
-}
-
-.app-body {
-
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display:  grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 15% auto
 }
 body,h1 {
   margin: 0
