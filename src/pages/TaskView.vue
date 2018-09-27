@@ -89,4 +89,7 @@
     .urgent .task-text {
       color: #b71c1c;
     }
+    span:last-child .task-item:last-child {
+        border-bottom: none
+    }
   </style>

@@ -1,5 +1,5 @@
 <template>
-        <li :class="{ 'done-task': task.done }" draggable="true">
+        <li :class="{ 'done-task': task.done }" :draggable="!task.done">
             <span class="task-content">
                 <input type="checkbox" :checked="task.done" @click="updateTask"/>
                 <span>
