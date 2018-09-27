@@ -6,7 +6,7 @@
                     <span class="task-text" v-if="!editMode">
                         {{task.description}}
                     </span>
-                    <input v-else type="text" :value="task.description" @input="updateTaskText" @blur="editMode = false"/>
+                    <input v-else type="text" :value="task.description" @input="updateTaskText" @focusout="editMode = false"/>
                 </span>
                 <span class="edit" @click="editMode = !editMode">
                     <span v-if="editMode">

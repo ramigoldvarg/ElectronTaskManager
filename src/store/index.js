@@ -16,13 +16,14 @@ let saveFileSync = (fileName, data) => {
 export default new Store({
     state: {
         tasks: [
-        ]
+        ],
+        today: new moment()
     },
     getters: {
         completedTasks: ({tasks}) => tasks.filter(curr => curr.done),
         uncompletedTasks: ({tasks}) => tasks.filter(curr => !curr.done),
-        notUrgent: ({tasks}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") > -3),
-        urgent: ({tasks}) =>  tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(new moment(), "days") <= -3),
+        notUrgent: ({tasks, today}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") > -3),
+        urgent: ({tasks, today}) =>  tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") <= -3),
     },
     mutations: {
         addTaskToList({tasks}, task) {
@@ -36,6 +37,9 @@ export default new Store({
         },
         loadTasks(state, loadedTasks) {
             state.tasks = loadedTasks
+        },
+        updateDay(state) {
+            state.today = new moment()
         }
     },
     actions: {
@@ -97,6 +101,9 @@ export default new Store({
                 "data": payload.text,
                 "prop": "description"
             });
+        },
+        updateDay({commit}) {
+            commit('updateDay')
         }
     }
 });

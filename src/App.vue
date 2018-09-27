@@ -15,15 +15,10 @@
 
 <script>
   import moment from 'moment'
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     name: 'App',
-    data() {
-      return {
-        today: new moment(),
-      }
-    },
     created() {
       this.loadTasks();
     },
@@ -32,19 +27,20 @@
       setTimeout(this.switchDay, moment([this.today.year(), this.today.month(), this.today.date() + 1]).diff(this.today))
     },
     methods: {
-      ...mapActions(['loadTasks']),
+      ...mapActions(['loadTasks', 'updateDay']),
       goBack(e) {
         e.keyCode == 27 && this.$router.push("/")
       },
-      switchDayInterval() {
-        this.today = new moment();
-      },
       switchDay() {
-        this.today = new moment();
-        this.swtichDayInterval = setInterval(this.swtichDayInterval, 24 * 60 * 60 * 1000)
+        this.updateDay()
+        this.interval = setInterval(this.updateDay, 24 * 60 * 60 * 1000)
       }
     },
+    destroyed() {
+      this.interval && clearInterval(this.interval);
+    },
     computed: {
+      ...mapState(['today']),
       dayOfTheWeek() {
         let currentDay = ""
         switch (this.today.day()) {
