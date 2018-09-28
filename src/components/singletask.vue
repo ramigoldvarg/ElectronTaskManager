@@ -76,9 +76,10 @@ export default {
         },
         drop(event) {
             event.preventDefault();
-
-            // TODO: add here a check if a regular task is switched with an urgent one
-            this.switchTasks({"src": {...JSON.parse(event.dataTransfer.getData("task"))}, "dest": {...this.task}})
+            if (this.task.id != JSON.parse(event.dataTransfer.getData("task")).id) {
+                // TODO: add here a check if a regular task is switched with an urgent one
+                this.switchTasks({"src": {...JSON.parse(event.dataTransfer.getData("task"))}, "dest": {...this.task}})
+            }
         }
     }
 }
