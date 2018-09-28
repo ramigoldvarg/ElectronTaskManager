@@ -25,6 +25,8 @@
 <script>
 import OptionMenu from './OptionMenu.vue'
 import {mapActions} from 'vuex'
+import {urgentFactor} from '../store/index.js'
+import moment from 'moment'
 
 export default {
     name: 'SingleTask',
@@ -76,9 +78,15 @@ export default {
         },
         drop(event) {
             event.preventDefault();
-            if (this.task.id != JSON.parse(event.dataTransfer.getData("task")).id) {
-                // TODO: add here a check if a regular task is switched with an urgent one
-                this.switchTasks({"src": {...JSON.parse(event.dataTransfer.getData("task"))}, "dest": {...this.task}})
+            const sourceTask = JSON.parse(event.dataTransfer.getData("task"))
+
+            if (this.task.id != sourceTask.id) {
+                if ((new moment(this.task.deadline).diff(new moment(), "days") > -urgentFactor && 
+                     new moment(sourceTask.deadline).diff(new moment(), "days") > -urgentFactor) || 
+                    (new moment(this.task.deadline).diff(new moment(), "days") <= -urgentFactor && 
+                     new moment(sourceTask.deadline).diff(new moment(), "days") <= -urgentFactor))  {
+                    this.switchTasks({"src": {...JSON.parse(event.dataTransfer.getData("task"))}, "dest": {...this.task}})
+                }
             }
         }
     }

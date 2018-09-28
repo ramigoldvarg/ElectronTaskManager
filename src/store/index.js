@@ -48,7 +48,7 @@ export default new Store({
                 if (curr.id != tasks[0].id && curr.id != tasks[1].id) {
                     return curr;
                 }
-            }).concat(tasks)
+            }).concat(tasks).sort((first, second) => first.id - second.id)
         }
     },
     actions: {
