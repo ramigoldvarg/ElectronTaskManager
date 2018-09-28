@@ -1,5 +1,5 @@
 <template>
-        <li :class="{ 'done-task': task.done }" :draggable="!task.done">
+        <li :class="{ 'done-task': task.done }" :draggable="!task.done" @dragstart="drag" @dragover="tryToAllowDrop" @drop="drop">
             <span class="task-content">
                 <input type="checkbox" :checked="task.done" @click="updateTask"/>
                 <span>
@@ -24,6 +24,7 @@
       
 <script>
 import OptionMenu from './OptionMenu.vue'
+import {mapActions} from 'vuex'
 
 export default {
     name: 'SingleTask',
@@ -47,6 +48,7 @@ export default {
         "option-menu": OptionMenu
     },
     methods: {
+        ...mapActions(["switchTasks"]),
         removeTask() {
             this.$emit("removeTask", this.task.id)
         },
@@ -63,6 +65,20 @@ export default {
             }
 
             this.$emit("updateText", {id:this.task.id, text:event.target.value})
+        },
+        tryToAllowDrop(event) {
+            if (!this.task.done) {
+                event.preventDefault();
+            }
+        },
+        drag(event) {
+            event.dataTransfer.setData("task", JSON.stringify(this.task));
+        },
+        drop(event) {
+            event.preventDefault();
+
+            // TODO: add here a check if a regular task is switched with an urgent one
+            this.switchTasks({"src": {...JSON.parse(event.dataTransfer.getData("task"))}, "dest": {...this.task}})
         }
     }
 }
@@ -97,6 +113,6 @@ export default {
         opacity: 0.5;
     }
     .drag-item:hover {
-        cursor: move
+        cursor: -webkit-grab
     }
 </style>

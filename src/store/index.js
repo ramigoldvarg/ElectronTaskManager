@@ -13,6 +13,8 @@ let saveFileSync = (fileName, data) => {
     fs.writeFileSync(fileName, data)
 }
 
+export const urgentFactor = 3
+
 export default new Store({
     state: {
         tasks: [
@@ -22,8 +24,8 @@ export default new Store({
     getters: {
         completedTasks: ({tasks}) => tasks.filter(curr => curr.done),
         uncompletedTasks: ({tasks}) => tasks.filter(curr => !curr.done),
-        notUrgent: ({tasks, today}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") > -3),
-        urgent: ({tasks, today}) =>  tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") <= -3),
+        notUrgent: ({tasks, today}) => tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") > -urgentFactor),
+        urgent: ({tasks, today}) =>  tasks.filter(curr => !curr.done && new moment(curr.deadline).diff(today, "days") <= -urgentFactor),
     },
     mutations: {
         addTaskToList({tasks}, task) {
@@ -40,6 +42,13 @@ export default new Store({
         },
         updateDay(state) {
             state.today = new moment()
+        },
+        switchTasks(state, tasks) {
+            state.tasks = state.tasks.filter(curr => {
+                if (curr.id != tasks[0].id && curr.id != tasks[1].id) {
+                    return curr;
+                }
+            }).concat(tasks)
         }
     },
     actions: {
@@ -104,6 +113,25 @@ export default new Store({
         },
         updateDay({commit}) {
             commit('updateDay')
+        },
+        switchTasks({commit}, payload) {
+            const newSrc = {...payload.src}
+            const newDest = {...payload.dest}
+            newSrc.id = newDest.id
+            newDest.id = payload.src.id
+            fs.writeFile(`${saveRoute}/${newSrc.id}`, JSON.stringify(newSrc), (err) => {
+                if (err) {
+                    throw err
+                }
+
+                fs.writeFile(`${saveRoute}/${newDest.id}`, JSON.stringify(newDest), (err) => {
+                    if (err) {
+                        throw err
+                    }
+
+                    commit('switchTasks', [newSrc, newDest])
+                })
+            })
         }
     }
 });
