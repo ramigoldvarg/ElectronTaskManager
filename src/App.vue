@@ -122,7 +122,7 @@
 
 <style>
   .header {
-    background-color: #a0a0a0;
+    background-color: #eceff1;
     margin: 0;
     padding: 0 1em;
     grid-column: 1;
@@ -130,11 +130,12 @@
     display: grid;
     grid-template-columns: 80% 20%;
     grid-template-rows: 50% 50%;
-    border-bottom: 1px solid red;
+    border-bottom: 2px solid #e0e0e0;
   }
   .header h1 {
     grid-row: 1;
-    text-align: right
+    text-align: right;
+    color: #651fff;
   }
   .header div {
     grid-row: 2;
