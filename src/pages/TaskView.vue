@@ -6,9 +6,9 @@
       <button class="btn-add" @click="navigate">+</button>
       <div class="task-lists">
         <p v-if="uncompletedTasks.length === 0">וואו אין משימות, בטח משעמם לך..</p>
-        <task-list :tasks="urgent" class="urgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
-        <task-list :tasks="notUrgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
-        <task-list :tasks="completedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
+        <task-list :tasks="urgent" class="task-list urgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
+        <task-list v-if="notUrgent.length!==0" class="task-list" :tasks="notUrgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
+        <task-list v-if="completedTasks.length!==0" class="task-list" :tasks="completedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
       </div>
     </div>
   </template>
@@ -89,7 +89,7 @@
     .urgent .task-text {
       color: #b71c1c;
     }
-    span:last-child .task-item:last-child {
+    .task-list:last-child .task-item:last-child {
         border-bottom: none
     }
   </style>
