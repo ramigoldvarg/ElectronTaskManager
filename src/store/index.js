@@ -44,11 +44,20 @@ export default new Store({
             state.today = new moment()
         },
         switchTasks(state, tasks) {
-            state.tasks = state.tasks.filter(curr => {
-                if (curr.id != tasks[0].id && curr.id != tasks[1].id) {
-                    return curr;
+            const movedTasks = state.tasks.slice(Math.min(tasks[0].id, tasks[1].id), Math.max(tasks[0].id, tasks[1].id) + 1).map((curr) => {
+                const factor = (tasks[0].id - tasks[1].id) / Math.abs(tasks[0].id - tasks[1].id)
+                const currTask = {...curr}
+
+                if (currTask.id == tasks[0].id) {
+                    currTask.id = tasks[1].id - factor
                 }
-            }).concat(tasks).sort((first, second) => first.id - second.id)
+
+                currTask.id += factor
+
+                return currTask
+            })
+
+            state.tasks = [...state.tasks.slice(0, Math.min(tasks[0].id, tasks[1].id)), ...movedTasks, ...state.tasks.slice(Math.max(tasks[0].id, tasks[1].id) + 1)].sort((first, second) => first.id - second.id)
         }
     },
     actions: {
@@ -114,24 +123,41 @@ export default new Store({
         updateDay({commit}) {
             commit('updateDay')
         },
-        switchTasks({commit}, payload) {
+        switchTasks({state, commit}, payload) {
             const newSrc = {...payload.src}
             const newDest = {...payload.dest}
-            newSrc.id = newDest.id
-            newDest.id = payload.src.id
-            fs.writeFile(`${saveRoute}/${newSrc.id}`, JSON.stringify(newSrc), (err) => {
-                if (err) {
-                    throw err
+            let amountOfTasks = 0
+            const tryMutationCall = () => {
+                amountOfTasks++;
+                
+                // After all the files are written commit a mutation to the state 
+                if (amountOfTasks === Math.abs(newSrc.id - newDest.id) + 1) {
+                    commit('switchTasks', [newSrc, newDest])  
+                }
+            }
+
+            // Finding hthe factor to know by which to add to  the index whether to add or to decrease from the index
+            const factor = (newSrc.id - newDest.id) / Math.abs(newSrc.id - newDest.id)
+
+            for (let index = Math.min(newSrc.id, newDest.id); index <= Math.max(newSrc.id, newDest.id); index++) {
+                const currTask = {...state.tasks.find((curr) => curr.id == index)}
+                
+                // Special treatment to the source because the source should be switched with the destination
+                if (index == newSrc.id) {
+                    currTask.id = newDest.id - factor
                 }
 
-                fs.writeFile(`${saveRoute}/${newDest.id}`, JSON.stringify(newDest), (err) => {
-                    if (err) {
-                        throw err
-                    }
+                if (currTask) {
+                    currTask.id += factor;
+                    fs.writeFile(`${saveRoute}/${currTask.id}`, JSON.stringify(currTask), (err) => {
+                        if (err) {
+                            throw err
+                        }
 
-                    commit('switchTasks', [newSrc, newDest])
-                })
-            })
+                        tryMutationCall()
+                    })
+                }
+            }
         }
     }
 });
