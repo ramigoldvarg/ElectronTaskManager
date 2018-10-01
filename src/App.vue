@@ -134,7 +134,7 @@
         return currentMonth
       },
       dateOfMonth() {
-        return this.today.date()
+        return this.today.date().toString().length == 1 ? '0' + this.today.date() : this.today.date()
       }
     }
   }

@@ -102,7 +102,7 @@
         margin-top: -26px;
         width: 50px;
         height: 50px;
-        font-size: 20pt;
+        font-size: 18pt;
     }
     .btn-submit:hover {
         background-color: #e53935;
@@ -113,7 +113,7 @@
     .btn-back {
         background-color: transparent;
         float: right;
-        margin-top: -72px;
+        margin-top: -69px;
         opacity: 0.5;
         font-size: 13pt;
         padding-right: 2px;
