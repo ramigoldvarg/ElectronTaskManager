@@ -44,8 +44,11 @@ export default new Store({
             state.today = new moment()
         },
         switchTasks(state, tasks) {
-            const movedTasks = state.tasks.slice(Math.min(tasks[0].id, tasks[1].id), Math.max(tasks[0].id, tasks[1].id) + 1).map((curr) => {
-                const factor = (tasks[0].id - tasks[1].id) / Math.abs(tasks[0].id - tasks[1].id)
+            const factor = (tasks[0].id - tasks[1].id) / Math.abs(tasks[0].id - tasks[1].id)
+            const srcIndex = state.tasks.findIndex(curr => curr.id == tasks[0].id)
+            const destIndex = state.tasks.findIndex(curr => curr.id == tasks[1].id)
+
+            const movedTasks = state.tasks.slice(Math.min(srcIndex, destIndex), Math.max(srcIndex, destIndex) + 1).map((curr) => {
                 const currTask = {...curr}
 
                 if (currTask.id == tasks[0].id) {
@@ -57,7 +60,7 @@ export default new Store({
                 return currTask
             })
 
-            state.tasks = [...state.tasks.slice(0, Math.min(tasks[0].id, tasks[1].id)), ...movedTasks, ...state.tasks.slice(Math.max(tasks[0].id, tasks[1].id) + 1)].sort((first, second) => first.id - second.id)
+            state.tasks = [...state.tasks.slice(0, Math.min(srcIndex, destIndex)), ...movedTasks, ...state.tasks.slice(Math.max(srcIndex, destIndex) + 1)].sort((first, second) => first.id - second.id)
         }
     },
     actions: {
