@@ -5,7 +5,7 @@
       </div>
       <button class="btn-add" @click="navigate">+</button>
       <div class="task-lists">
-        <p v-if="uncompletedTasks.length === 0">וואו אין משימות, בטח משעמם לך..</p>
+        <p class="boring" v-if="uncompletedTasks.length === 0">וואו אין משימות, בטח משעמם לך..</p>
         <task-list :tasks="urgent" class="task-list urgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
         <task-list v-if="notUrgent.length!==0" class="task-list" :tasks="notUrgent" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
         <task-list v-if="completedTasks.length!==0" class="task-list" :tasks="completedTasks" :updateTextHandler='updateTaskText' :removehandler="removeTask" :updatehandler="updateTask"></task-list>
@@ -47,6 +47,10 @@
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
+    .boring {
+      padding-right: 16px;
+      font-size: 14pt
+    }
     .task-lists {
       margin-top: 29px;
     }  

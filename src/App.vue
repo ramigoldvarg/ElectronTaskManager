@@ -141,6 +141,10 @@
 </script>
 
 <style>
+  @font-face {
+    font-family: 'Assistant';
+    src: url('./assets/fonts/Assistant/Assistant-Regular.ttf')
+  }
   .header {
     background-color: #eceff1;
     margin: 0;
@@ -171,7 +175,7 @@
     direction: rtl
   }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Assistant', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: absolute;
