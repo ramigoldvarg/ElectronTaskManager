@@ -17,7 +17,12 @@ app.on('ready', () => {
         fs.writeFileSync(`d:/${os.userInfo().username}-taskmanager/tasks.txt`, "")
     }
 
-    mainWindow = new BrowserWindow({'menu': false, height: 600, width: 400});
+    mainWindow = new BrowserWindow({
+        menu: false,
+        height: 600,
+        width: 400,
+        icon: `${__dirname}/src/assets/logo.png`
+    });
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     mainWindow.on('closed', ()=> app.quit());
 })

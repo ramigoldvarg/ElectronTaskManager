@@ -145,6 +145,11 @@
     font-family: 'Assistant';
     src: url('./assets/fonts/Assistant/Assistant-Regular.ttf')
   }
+  @font-face {
+    font-family: 'Assistant';
+    src: url('./assets/fonts/Assistant/Assistant-Bold.ttf');
+    font-weight: bold
+  }
   .header {
     background-color: #eceff1;
     margin: 0;
