@@ -1,8 +1,8 @@
 <template>
     <div>
         <div>
-            <button @click="$router.push('/')" class="fa fa-angle-right"></button>
-            <button @click="submitTask" class="fa fa-check"></button>
+            <button @click="$router.push('/')" class="fa fa-arrow-right btn btn-back"></button>
+            <button @click="submitTask" class="fa fa-check btn btn-submit"></button>
         </div>
         <div class="container">
             <span>מה יש לך לעשות?</span>
@@ -79,6 +79,44 @@
         z-index: 20;
         float: left;
         margin: 8px 35px;
+    }
+    .container {
+        margin-top: 24px
+    }
+    .btn {
+      border-color: rgba(0,0,0,0);
+      position: relative;
+    }
+    .btn:hover {
+      cursor: pointer;
+    }
+    .btn:focus {
+      outline: transparent
+    }
+    .btn-submit {
+        float: left;
+        border-radius: 50%;
+        color: white;
+        background-color: #f44336;
+        margin-left: 10px;
+        margin-top: -26px;
+        width: 50px;
+        height: 50px;
+        font-size: 20pt;
+    }
+    .btn-submit:hover {
+        background-color: #e53935;
+    }
+    .btn-back:hover {
+        opacity: 1;
+    }
+    .btn-back {
+        background-color: transparent;
+        float: right;
+        margin-top: -72px;
+        opacity: 0.5;
+        font-size: 13pt;
+        padding-right: 2px;
     }
   </style>
   

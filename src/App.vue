@@ -144,7 +144,7 @@
   .header {
     background-color: #eceff1;
     margin: 0;
-    padding: 0 1em;
+    padding: 0 1.4em;
     grid-column: 1;
     grid-row-start: 1;
     display: grid;
