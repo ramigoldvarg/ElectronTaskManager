@@ -2,7 +2,7 @@
   <div id="app">
     <div class="header">
       <h1>
-        יום {{dayOfTheWeek}} 
+        {{headerMessage}} 
       </h1>
       <div>
         {{dateOfMonth}} ב{{displayMonth}}
@@ -19,8 +19,19 @@
 
   export default {
     name: 'App',
+    data() {
+      return {
+        headerMessage: ''
+      }
+    },
     created() {
       this.loadTasks();
+
+      if (this.$router.history.current.name == "NewTask") {
+        this.headerMessage = "הוספת משימה"
+      } else {
+        this.headerMessage = "יום " + this.dayOfTheWeek
+      }
     },
     mounted() {
       window.addEventListener("keydown", this.goBack)
@@ -38,6 +49,15 @@
     },
     destroyed() {
       this.interval && clearInterval(this.interval);
+    },
+    watch: {
+      '$route' (to, from) {
+        if (to.name == "NewTask") { 
+          this.headerMessage = "הוספת משימה"
+        } else {
+          this.headerMessage = "יום " + this.dayOfTheWeek
+        }
+      }
     },
     computed: {
       ...mapState(['today']),
@@ -114,17 +134,26 @@
         return currentMonth
       },
       dateOfMonth() {
-        return this.today.date()
+        return this.today.date().toString().length == 1 ? '0' + this.today.date() : this.today.date()
       }
     }
   }
 </script>
 
 <style>
+  @font-face {
+    font-family: 'Assistant';
+    src: url('./assets/fonts/Assistant/Assistant-Regular.ttf')
+  }
+  @font-face {
+    font-family: 'Assistant';
+    src: url('./assets/fonts/Assistant/Assistant-Bold.ttf');
+    font-weight: bold
+  }
   .header {
     background-color: #eceff1;
     margin: 0;
-    padding: 0 1em;
+    padding: 0 1.4em;
     grid-column: 1;
     grid-row-start: 1;
     display: grid;
@@ -151,7 +180,7 @@
     direction: rtl
   }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Assistant', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: absolute;
