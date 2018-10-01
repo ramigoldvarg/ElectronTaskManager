@@ -2,7 +2,7 @@
   <div id="app">
     <div class="header">
       <h1>
-        יום {{dayOfTheWeek}} 
+        {{headerMessage}} 
       </h1>
       <div>
         {{dateOfMonth}} ב{{displayMonth}}
@@ -19,8 +19,19 @@
 
   export default {
     name: 'App',
+    data() {
+      return {
+        headerMessage: ''
+      }
+    },
     created() {
       this.loadTasks();
+
+      if (this.$router.history.current.name == "NewTask") {
+        this.headerMessage = "הוספת משימה"
+      } else {
+        this.headerMessage = "יום " + this.dayOfTheWeek
+      }
     },
     mounted() {
       window.addEventListener("keydown", this.goBack)
@@ -38,6 +49,15 @@
     },
     destroyed() {
       this.interval && clearInterval(this.interval);
+    },
+    watch: {
+      '$route' (to, from) {
+        if (to.name == "NewTask") { 
+          this.headerMessage = "הוספת משימה"
+        } else {
+          this.headerMessage = "יום " + this.dayOfTheWeek
+        }
+      }
     },
     computed: {
       ...mapState(['today']),
