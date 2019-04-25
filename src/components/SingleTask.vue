@@ -124,4 +124,9 @@ export default {
     .drag-item:hover {
         cursor: -webkit-grab
     }
+    input[type='checkbox'] {
+        /* opacity: 0; */
+        -webkit-appearance: checkbox;
+        box-sizing: border-box;
+    }
 </style>
